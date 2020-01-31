@@ -28,3 +28,40 @@ println("Construction coefficients: $(ε)\n")
 for i in 1:length(rocket.stages)
     println("$(λ[i] + ε[i]) = $(1 / r[i])")
 end
+
+# 3. Engineering with weight optimization
+
+cOpt = [[3000.0, 4000.0],
+        [3000.0, 4000.0],
+        [3500.0, 3500.0],
+        [3500.0, 3500.0],
+        [3000.0, 4000.0],
+        [2000.0, 4000.0],
+        [2000.0, 4000.0]
+        ]
+
+εOpt = [[0.05, 0.1],
+        [0.075, 0.075],
+        [0.05, 0.1],
+        [0.075, 0.075],
+        [0.1, 0.05],
+        [0.1, 0.1],
+        [0.1, 0.05]
+]
+
+λOpt = [λsOptimized(9500.0, cOpt[1], εOpt[1], 2),
+        λsOptimized(9500.0, cOpt[2], εOpt[2], 2),
+        λsOptimized(9500.0, cOpt[3], εOpt[3], 2),
+        λsOptimized(9500.0, cOpt[4], εOpt[4], 2),
+        λsOptimized(9500.0, cOpt[5], εOpt[5], 2),
+        λsOptimized(9500.0, cOpt[6], εOpt[6], 2),
+        λsOptimized(9500.0, cOpt[7], εOpt[7], 2)
+        ]
+
+println("\nIdeal velocity = $(v), n = $(n):")
+for (number, λ) in enumerate(λOpt)
+        println("\n$(number). c = $(cOpt[number]), ε = $(εOpt[number])")
+        println("λ = $(λ)")
+        println("r = $(rsOptimized(λ, εOpt[number], n))")
+        println("G = $(coefG(λ))")
+end
