@@ -30,14 +30,15 @@ for i in 1:length(rocket.stages)
 end
 
 # 3. Engineering with weight optimization
-
+v = 9500.0
 cOpt = [[3000.0, 4000.0],
         [3000.0, 4000.0],
         [3500.0, 3500.0],
         [3500.0, 3500.0],
         [3000.0, 4000.0],
         [2000.0, 4000.0],
-        [2000.0, 4000.0]
+        [2000.0, 4000.0],
+        [4000.0]
         ]
 
 εOpt = [[0.05, 0.1],
@@ -46,22 +47,24 @@ cOpt = [[3000.0, 4000.0],
         [0.075, 0.075],
         [0.1, 0.05],
         [0.1, 0.1],
-        [0.1, 0.05]
+        [0.1, 0.05],
+        [0.1]
 ]
 
-λOpt = [λsOptimized(9500.0, cOpt[1], εOpt[1], 2),
-        λsOptimized(9500.0, cOpt[2], εOpt[2], 2),
-        λsOptimized(9500.0, cOpt[3], εOpt[3], 2),
-        λsOptimized(9500.0, cOpt[4], εOpt[4], 2),
-        λsOptimized(9500.0, cOpt[5], εOpt[5], 2),
-        λsOptimized(9500.0, cOpt[6], εOpt[6], 2),
-        λsOptimized(9500.0, cOpt[7], εOpt[7], 2)
+λOpt = [λsOptimized(v, cOpt[1], εOpt[1], 2),
+        λsOptimized(v, cOpt[2], εOpt[2], 2),
+        λsOptimized(v, cOpt[3], εOpt[3], 2),
+        λsOptimized(v, cOpt[4], εOpt[4], 2),
+        λsOptimized(v, cOpt[5], εOpt[5], 2),
+        λsOptimized(v, cOpt[6], εOpt[6], 2),
+        λsOptimized(v, cOpt[7], εOpt[7], 2),
+        λsOptimized(v, cOpt[8], εOpt[8], 1)
         ]
 
-println("\nIdeal velocity = $(v), n = $(n):")
+println("\nIdeal velocity = $(v):")
 for (number, λ) in enumerate(λOpt)
-        println("\n$(number). c = $(cOpt[number]), ε = $(εOpt[number])")
+        println("\n$(number). n = $(length(λ)), c = $(cOpt[number]), ε = $(εOpt[number])")
         println("λ = $(λ)")
-        println("r = $(rsOptimized(λ, εOpt[number], n))")
+        println("r = $(rsOptimized(λ, εOpt[number], length(λ)))")
         println("G = $(coefG(λ))")
 end
