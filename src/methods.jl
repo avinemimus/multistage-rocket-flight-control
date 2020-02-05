@@ -33,6 +33,10 @@ function rs(rocket::Rocket)
     return r
 end
 
+function idealVelocity(rocket::Rocket)
+    return reduce(+, velocityDeltas(rocket))
+end
+
 function λs(rocket::Rocket)
     λ = []
     mass = initialMass(rocket)
@@ -76,4 +80,21 @@ end
 
 function coefG(λs::Vector{Float64})
     return 1 / prod(λs)
+end
+
+function hsBurnOut(rocket::Rocket)
+        h = []
+        mass = initialMass(rocket)
+        for stage in rocket.stages
+                m0 = mass
+                mf = mass - stage.mFuel
+                hbo = (stage.c / stage.mFlowRate) * (mf * log(mf / m0) + m0 - mf)
+                push!(h, hbo)
+                mass -= stage.mFull
+        end
+        return h
+end
+
+function hBurnOut(rocket::Rocket)
+        return reduce(+, hsBurnOut(rocket))
 end
