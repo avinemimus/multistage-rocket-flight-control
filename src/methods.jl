@@ -81,6 +81,21 @@ end
 function coefG(λs::Vector{Float64})
     return 1 / prod(λs)
 end
+"""
+function linearMass(t::Float64, rocket::Rocket)
+        m = initialMass(rocket)
+        count = 0
+        for stage in rocket.stages
+                if stage.mFuel <= stage.mFlowRate * t
+                        m -= stage.mFull
+                        count += 1
+                end
+        end
+        if count + 1 <= length(rocket.stages)
+                m -= rocket.stages[count + 1].mFlowRate * t
+        end
+        return m
+end
 
 function hsBurnOut(rocket::Rocket)
         h = []
@@ -98,3 +113,8 @@ end
 function hBurnOut(rocket::Rocket)
         return reduce(+, hsBurnOut(rocket))
 end
+
+function g(h::Float64)
+    return g0 * (1 - 2 * h / R)
+end
+"""
